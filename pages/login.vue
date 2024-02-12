@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { account } from "~/lib/appwrite";
+import { account } from "@/lib/appwrite";
+import { v4 as uuid} from 'uuid'
 
 useHead({
    title: 'Login',
@@ -33,6 +34,11 @@ const login = async () => {
    isLoadingStore.set(false)
 }
 
+const registr = async () => {
+   await account.create(uuid(), emailRef.value, password.value, name.value,);
+   await login();
+}
+
 </script>
 <template>
    <div class="flex item-centre justify-center min-h-60 w-full mt-60 ">
@@ -52,8 +58,8 @@ const login = async () => {
          style="color: aliceblue;"
          v-model="name" />   
          <div class="flex items-center justify-center gap-5">
-            <Button type="button">Login</Button>
-            <Button type="button">Register</Button>
+            <Button type="button" @click="login" >Login</Button>
+            <Button type="button" @click="registr" >Register</Button>
          </div>
       </form>
       </div>

@@ -32,7 +32,7 @@ export const MENU_DATA: IMenuItem[] = [
    },
    {
       icon: "octicon:sponsor-tiers-24",
-      name: 'Feebback',
+      name: 'Feedback',
       url: '/feedback'
    },
    {

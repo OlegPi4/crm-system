@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // pages: false,
   devtools: { enabled: false },
   modules: [
     "@nuxt/image",
