@@ -13,6 +13,7 @@ interface IDealFormState extends Pick<IDeal, 'name' | 'price'>
    customer: {
       email: string
       name: string
+      // ['from-source']: string
    }
    status: string
 }
@@ -37,6 +38,7 @@ const [name, nameAttrs] = defineField('name')
 const [price, priceAttrs] = defineField('price')
 const [customerEmail, customerEmailAttrs] = defineField('customer.email')
 const [customerName, customerNameAttrs] = defineField('customer.name')
+// const [customerSource, customerSourceAttrs] = defineField('customer.from-source')
 
 const {mutate, isPending} = useMutation({
    mutationKey: ['create a new deal'],
@@ -55,7 +57,7 @@ const onSubmit = handleSubmit(values => {
 
 <template>
    <div class="text-center mb-2">
-      <button class="transition-all opacity-5 hover:opacity-100  hover:text-[#a252c8]"
+      <button class="transition-all opacity-15 hover:opacity-100  hover:text-[#a252c8]"
       @click="isOpenForm = !isOpenForm">
          <Icon
             v-if="isOpenForm"
@@ -101,6 +103,13 @@ const onSubmit = handleSubmit(values => {
          type="text"
          class="input"
       />
+      <!-- <Input 
+         placeholder="Ждерело заявки"
+         v-model="customerSource"
+         v-bind="customerSourceAttrs"
+         type="text"
+         class="input"
+      /> -->
 
       <button class="btn" :disabled="isPending">
          {{ isPending ? 'Загрузка...' : 'Додати'  }}
@@ -120,6 +129,9 @@ const onSubmit = handleSubmit(values => {
 form {
    @apply mb-3 block;
    animation: show 0.3s ease-in-out;
+   background-color: #f1dfdc;
+   padding: 10px 10px;
+   border-radius: 8px
 }
 
 @keyframes show {
