@@ -7,6 +7,7 @@ import {useMutation} from '@tanstack/vue-query'
 import { DB } from '~/lib/appwrite'
 import { DB_ID, COLLECTION_DEALS } from '~/lib/app.constants'
 import type { EnumStatus } from '~/types/deals.types';
+import { generateColumnStyle } from '~/components/kanban/generate-gradient'
 
 
 useSeoMeta({
@@ -43,6 +44,8 @@ function handleDragOver(event: DragEvent) {
 
 function handleDrop(targetColumn: IColumn) {
    if(dragCardRef.value && sourceColumnRef.value) {
+      console.log(`handleDrop docId - ${dragCardRef.value.id} / status - ${targetColumn.id}` );
+      
       mutate({ docId: dragCardRef.value.id, status: targetColumn.id })
    }
 }
@@ -64,9 +67,12 @@ function handleDrop(targetColumn: IColumn) {
                :key="column.id"
                @dragover="handleDragOver"
                @drop="() => handleDrop(column)"
+               class="min-h-screen"
                >
                <div class="rounder bg-blue-300 py-1 px-5
-                  mb-2 text-center font-medium text-lg">
+                  mb-2 text-center font-medium text-lg"
+                  :style="generateColumnStyle(index, data?.length)"   
+               >
                   {{ column.name }}
                </div>
                <div>

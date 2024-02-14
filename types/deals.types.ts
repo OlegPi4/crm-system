@@ -17,7 +17,7 @@ export interface IComment extends IBaseField {
 export enum EnumStatus {
    'todo' = 'todo',
    'to-be-agreed' = 'to-be-agreed',
-   'in-progress' = 'in-progress',
+   'in-process' = 'in-process',
    'produced' = 'produced',
    'done' = 'done',
 }

@@ -13,7 +13,7 @@ export const KANBAN_DATA:IColumn[] = [
       items: []
    },
    {
-      id: EnumStatus['in-progress'],
+      id: EnumStatus['in-process'],
       name: 'На виконанні',
       items: []
    },
