@@ -10,7 +10,7 @@ useSeoMeta({
    title: 'Customers | CRM-System',
 })
 
-const {data, isLoading, refetch} = useQuery({
+const {data, isLoading} = useQuery({
    queryKey: ['customers'],
    queryFn: () => DB.listDocuments(DB_ID, COLLECTION_CUSTOMERS),
    
@@ -19,20 +19,7 @@ const {data, isLoading, refetch} = useQuery({
 
 
 const customers = (data?.value?.documents as unknown as ICustomer[])
-// console.log(customers);
-
-// function creatAreayCustomers(Arr: any) {
-//    let customersR 
-//    for (let index = 0; index < Arr.length; index++) {
-//       const element = Arr[index];
-//       customers.push(element);
-//    }
-//    return customersR
-// }   
-
-// const customersR = creatAreayCustomers(customers);
-// console.log(customersR);
-
+// const dd = customers. as unknown as ICustomer[]
 
 const q = ref('')
 
@@ -69,7 +56,7 @@ const filteredRows = computed(() => {
                <TableHead class="w-[100px]">Розгорнута інформація</TableHead>
             </TableRow>
          </TableHeader> 
-         <TableBody>
+         <TableBody v-if="filteredRows">
             <TableRow 
                v-for="customer in filteredRows"
                :key="customer.$id"
