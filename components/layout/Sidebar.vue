@@ -27,10 +27,11 @@ const logout = async() => {
          <NuxtImg src="/Logo2.svg" alt="logotype" width="120px" class="mx-auto logo-img mt-4"  />
       </NuxtLink>
       
-      <Button class="absolute right-2 top-2 transition-colors  hover:text-secondary"
+      <Button class="absolute right-2 top-2 transition-colors  hover:text-secondary" 
       @click="logout"
-      style="padding: 5px 8px;">
-         <Icon name="line-md:logout" size="22px" />
+      style="padding: 5px 8px;
+      background-color: #d4b550;">
+         <Icon name="line-md:logout" size="22px"  />
       </Button>
       <LayoutMenu />
    </aside>

@@ -7,6 +7,8 @@ const defaultValue: {card: ICard | null, isOpen: boolean } = {
 }
 
 export const useDealSlideStore = defineStore('deal-slide', {
+   
+      
    state: () => defaultValue,
    actions: {
       clear() {

@@ -9,7 +9,6 @@ import { DB_ID, COLLECTION_DEALS } from '~/lib/app.constants'
 import type { EnumStatus } from '~/types/deals.types';
 import { generateColumnStyle } from '~/components/kanban/generate-gradient'
 
-
 useSeoMeta({
    title: 'Home | CRM-System',
 })
@@ -17,6 +16,9 @@ useSeoMeta({
 const dragCardRef = ref<ICard | null>(null);
 const sourceColumnRef = ref<IColumn | null>(null);
 const {data, isLoading, refetch} = useKanbanQuery();
+
+const store = useDealSlideStore()
+
 
 type TypeMutationVariables = {
    docId: string
@@ -44,9 +46,8 @@ function handleDragOver(event: DragEvent) {
 
 function handleDrop(targetColumn: IColumn) {
    if(dragCardRef.value && sourceColumnRef.value) {
-      console.log(`handleDrop docId - ${dragCardRef.value.id} / status - ${targetColumn.id}` );
-      
-      mutate({ docId: dragCardRef.value.id, status: targetColumn.id })
+  
+   mutate({ docId: dragCardRef.value.id, status: targetColumn.id })
    }
 }
 
@@ -82,9 +83,10 @@ function handleDrop(targetColumn: IColumn) {
                      :key="card.id"
                      class="mb-3"
                      draggable="true"
+                     @click.stop=store.set(card)
                      @dragstart="() => handleDragStart(card, column)"
                      > 
-                     <CardHeader role="button">
+                     <CardHeader role="button" >
                          {{ card.name }} 
                      </CardHeader>
                      <CardDescription class="pl-3  font-bold">
@@ -105,6 +107,7 @@ function handleDrop(targetColumn: IColumn) {
                </div>
             </div>
          </div>   
+         <KanbanSideover />
       </div>     
    </div>
 </template>
