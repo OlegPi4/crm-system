@@ -24,6 +24,7 @@ const login = async () => {
          email: response.email,
          name: response.name,
          status: response.status,
+         labels: response.labels,
       })
    }
    emailRef.value = '';

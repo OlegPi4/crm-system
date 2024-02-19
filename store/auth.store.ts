@@ -4,6 +4,7 @@ interface IAuthStore {
    email: string
    name: string
    status: boolean
+   labels: [string]
 }
 
 const defaultValue: {user: IAuthStore} = {
@@ -11,6 +12,7 @@ const defaultValue: {user: IAuthStore} = {
       email: '',
       name: '',
       status: false,
+      labels: ['']
    }
 }
 
@@ -18,6 +20,7 @@ export const useAuthStore = defineStore('auth', {
    state: () => defaultValue,
    getters: {
       isAuth: state => state.user.status,
+      isRole: state => state.user.labels,
    },
    actions: {
       clear(){
