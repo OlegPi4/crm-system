@@ -38,24 +38,24 @@ function edit(val:IOurCompany[]) {
          </TableHeader> 
          <TableBody v-if="companys">
             <TableRow 
-               v-for="company in companys"
-               :key="company.$id"
+               v-for="item in companys"
+               :key="item.$id"
             >
                <TableCell class="font-medium">
-                  {{ company.namelong }}
+                  {{ item.namelong }}
                </TableCell>
                <TableCell>
-                  {{ company.nameshort }}
+                  {{ item.nameshort }}
                </TableCell>
                <TableCell>
-                  {{ company.address }}
+                  {{ item.address }}
                </TableCell>
                <TableCell>
-                  {{ company.edrpo }}
+                  {{ item.edrpo }}
                </TableCell>
                <TableCell class="flex justify-center">
                   <NuxtLink 
-                     :href="`/settings/edit/company/${company.$id}`"
+                     :href="`/settings/edit/company/${item.$id}`"
                      style="background-color: #aaa;"
                      class="my-btn"
                   > edit
