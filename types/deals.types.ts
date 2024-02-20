@@ -29,3 +29,4 @@ export interface IDeal extends IBaseField {
    price: number
    status: EnumStatus
 }
+
