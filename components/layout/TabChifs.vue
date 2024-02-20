@@ -27,6 +27,7 @@ const chifs = (data?.value?.documents as unknown as IOurChifs[])
                <TableHead class="w-[300px]">П І Б</TableHead>
                <TableHead class="w-[300px]">П І Б у родовому відмінку</TableHead>
                <TableHead class="w-[500px]">Документ на підставі якого діє</TableHead>
+               <TableHead class="w-[200px]">Дії</TableHead>
             </TableRow>
          </TableHeader> 
          <TableBody v-if="chifs">
@@ -51,7 +52,7 @@ const chifs = (data?.value?.documents as unknown as IOurChifs[])
                </TableCell>
                <TableCell class="flex justify-center">
                   <NuxtLink 
-                     href=""
+                     :href="`/settings/edit/person/${item.$id}`"
                      style="background-color: #aaa;"
                      class="my-btn"
                   > edit
@@ -84,6 +85,10 @@ const chifs = (data?.value?.documents as unknown as IOurChifs[])
 .my-btn:hover
    color: #fff 
 
+.block-btn
+   margin-top: 10px
+   display: flex
+   justify-content: center
 .btn-add
    padding: 5px 12px
 

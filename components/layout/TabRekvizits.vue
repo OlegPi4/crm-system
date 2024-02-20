@@ -22,9 +22,10 @@ const rekvizits = (data?.value?.documents as unknown as IOurBankRecvizits[])
       <Table v-else>
          <TableHeader>
             <TableRow>
-               <TableHead class="w-[200px]">МФО</TableHead>
+               <TableHead class="w-[220px]">МФО</TableHead>
                <TableHead class="w-[400px]">Назва банку</TableHead>
-               <TableHead class="w-[300px]">Рахунок</TableHead>
+               <TableHead class="w-[350px]">Рахунок</TableHead>
+               <TableHead class="w-[200px]">Дії</TableHead>
             </TableRow>
          </TableHeader> 
          <TableBody v-if="rekvizits">
@@ -44,7 +45,7 @@ const rekvizits = (data?.value?.documents as unknown as IOurBankRecvizits[])
             
                <TableCell class="flex justify-center">
                   <NuxtLink 
-                     href=""
+                     :href="`/settings/edit/bankrekvizit/${item.$id}`"
                      style="background-color: #aaa;"
                      class="my-btn"
                   > edit
@@ -81,6 +82,10 @@ const rekvizits = (data?.value?.documents as unknown as IOurBankRecvizits[])
 .my-btn:hover
    color: #fff 
 
+.block-btn
+   margin-top: 10px
+   display: flex
+   justify-content: center
 .btn-add 
    margin-top: 8px
    padding: 5px 12px

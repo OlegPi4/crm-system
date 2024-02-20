@@ -13,6 +13,13 @@ const {data, isLoading} = useQuery({
 
 
 const companys = (data?.value?.documents as unknown as IOurCompany[])
+const comp = ref() 
+
+function edit(val:IOurCompany[]) {
+   comp.value = val
+}
+
+
 
 </script>
 <template>
@@ -25,7 +32,8 @@ const companys = (data?.value?.documents as unknown as IOurCompany[])
                <TableHead class="w-[400px]">Назва</TableHead>
                <TableHead class="w-[300px]">Скорочена назва</TableHead>
                <TableHead class="w-[400px]">Адреса</TableHead>
-               <TableHead class="w-[400px]">ЄДРПОУ</TableHead>
+               <TableHead class="w-[300px]">ЄДРПОУ</TableHead>
+               <TableHead class="w-[200px]">Дії</TableHead>
             </TableRow>
          </TableHeader> 
          <TableBody v-if="companys">
@@ -47,7 +55,7 @@ const companys = (data?.value?.documents as unknown as IOurCompany[])
                </TableCell>
                <TableCell class="flex justify-center">
                   <NuxtLink 
-                     href=""
+                     :href="`/settings/edit/company/${company.$id}`"
                      style="background-color: #aaa;"
                      class="my-btn"
                   > edit
