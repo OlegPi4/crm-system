@@ -7,13 +7,11 @@ import { DB } from '~/lib/appwrite'
 
 
 const isOpenForm = ref(false);
-
 interface IDealFormState extends Pick<IDeal, 'name' | 'price'>
 {
    customer: {
       email: string
       name: string
-      // ['from-source']: string
    }
    status: string
 }
@@ -38,7 +36,6 @@ const [name, nameAttrs] = defineField('name')
 const [price, priceAttrs] = defineField('price')
 const [customerEmail, customerEmailAttrs] = defineField('customer.email')
 const [customerName, customerNameAttrs] = defineField('customer.name')
-// const [customerSource, customerSourceAttrs] = defineField('customer.from-source')
 
 const {mutate, isPending} = useMutation({
    mutationKey: ['create a new deal'],
@@ -103,14 +100,6 @@ const onSubmit = handleSubmit(values => {
          type="text"
          class="input"
       />
-      <!-- <Input 
-         placeholder="Ждерело заявки"
-         v-model="customerSource"
-         v-bind="customerSourceAttrs"
-         type="text"
-         class="input"
-      /> -->
-
       <button class="btn" :disabled="isPending">
          {{ isPending ? 'Загрузка...' : 'Додати'  }}
       </button>
@@ -135,7 +124,6 @@ form {
 }
 
 @keyframes show {
-
    from {
       @apply border-[#a252c83d];
       transition: translateY(-35px);

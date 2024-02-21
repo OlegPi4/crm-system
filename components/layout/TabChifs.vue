@@ -11,8 +11,23 @@ const {data, isLoading} = useQuery({
    queryFn: () => DB.listDocuments(DB_ID, COLLECTION_OURCHIFS),
 })
 
-
 const chifs = (data?.value?.documents as unknown as IOurChifs[])
+const showAddForm = ref(false)
+
+function delitem(val: string) {
+   if(confirm('Підтвердіть видалення ?')) {
+      let docId = val
+      const promise = DB.deleteDocument(DB_ID, COLLECTION_OURCHIFS, docId)
+      promise.then(function () {
+         alert('Запис видалено')
+      }, function (error:string) {
+         alert(error)
+      })
+   }
+}
+function setShowAddForm() {
+   showAddForm.value = !showAddForm.value
+}
 
 </script>
 <template>
@@ -58,7 +73,7 @@ const chifs = (data?.value?.documents as unknown as IOurChifs[])
                   > edit
                   </NuxtLink>
                   <NuxtLink 
-                     @click.stop=''
+                     @click.stop='delitem(item.$id)'
                      style="background-color: #aaa;"
                      class="my-btn"
                   > del
@@ -68,12 +83,17 @@ const chifs = (data?.value?.documents as unknown as IOurChifs[])
          </TableBody>
       </Table> 
       <div class="block-btn" >
-         <Button class="btn-add"
-            @click="addfunc"
+         <Button class="btn-add"  v-if="!showAddForm"
+            @click.stop="setShowAddForm"
             style="background-color: #aaa;"
          >add</Button>
       </div>
    </div>
+   <section class="add-form">
+      <LayoutAddPerson 
+      v-if="showAddForm"
+      @exit-add="setShowAddForm" />
+   </section>
 </template>
 
 <style lang="sass" scoped>

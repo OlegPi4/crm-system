@@ -29,13 +29,10 @@ useSeoMeta({
             </LayoutTabRekvizits>
          </div>
       </div>
-
-
    </div>
 </template>
 
 <style lang="sass" scoped>
-
 .company
    border: 2px solid #aaa
    border-radius: 10px 

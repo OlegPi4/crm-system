@@ -1,61 +1,55 @@
 <script lang="ts" setup> 
 import { DB } from '~/lib/appwrite';
-import { useMutation, useQuery } from '@tanstack/vue-query';
+import { useMutation } from '@tanstack/vue-query';
 import { COLLECTION_OURBANKRECV, DB_ID } from '~/lib/app.constants';
 import type { IOurBankRecvizits } from '~/types/company.types';
-import { useRouter } from '#vue-router';
+import { v4 as uuid} from 'uuid'
 
 interface IOurBankRekvFormState extends IOurBankRecvizits{} 
 
 
 useSeoMeta({
-   title: 'Редагування банківських реквізитів '
+   title: 'додати банківські реквізити '
 })
 
-const route = useRoute()
-const docId = route.params.id as string
-const router = useRouter();
-
-const { handleSubmit, defineField, setFieldValue, setValues, values } =
+const { handleSubmit, defineField, handleReset } =
    useForm<IOurBankRekvFormState>()
 
-const { data, isSuccess } = useQuery({
-   queryKey: ['get person', docId],
-   queryFn: () => DB.getDocument(DB_ID, COLLECTION_OURBANKRECV, docId),
-}) 
-
-
-
-watch(isSuccess, () => {
-   const initialData = data.value as unknown as IOurBankRekvFormState
-   setValues({
-      mfo: initialData.mfo,
-      namebank: initialData.namebank,
-      account: initialData.account,
-   })
-})
+const emit = defineEmits(['exit-add'])
 
 const [mfo, mfoAttrs] = defineField('mfo')
 const [namebank, namebankAttrs] = defineField('namebank')
 const [account, accountAttrs] = defineField('account')
 
 const { mutate, isPending } = useMutation({
-   mutationKey: ['update ourcompany', docId],
-   mutationFn: (data: IOurBankRekvFormState) => DB.updateDocument(DB_ID, COLLECTION_OURBANKRECV, docId, data)
+   mutationKey: ['create rekvuzut'],
+   mutationFn: (data: IOurBankRekvFormState) => DB.createDocument(DB_ID, COLLECTION_OURBANKRECV, uuid(), data),
+   onSuccess(){
+      emit('exit-add')
+   }
 })
 
 const onSubmit = handleSubmit(values => {
    mutate(values)
-   router.go(-1);  
 })
+
+function exit(){
+   emit('exit-add')
+}
 
 </script>
 
 <template>
-   <div class="p-10">
-      <h2 class="font-bold text-2xl mb-10">
-         Редагування банківських реквізитив 
-      </h2>
+   <div class="p-10 wrapp">
+      <div class="flex justify-between" >
+         <h2 class="heared-title font-bold text-2xl mb-10">
+            Додати банківські реквізити 
+         </h2>   
+         <button type="button"
+         @click="exit" >
+            <Icon name="ic:baseline-close" width="24px" height="24px" class="mr-3" />
+         </button>   
+      </div>
       <form @submit="onSubmit"  class="form" >
          <Input 
             placeholder="МФО банку"
@@ -86,7 +80,12 @@ const onSubmit = handleSubmit(values => {
 </template>
 
 <style lang="sass" scoped>
+.wrapp
+   margin: 10px 20px
+   border: 2px solid  #aaa
+   border-radius: 10px
+
 .input
    @apply border-[#161c26] mb-2 placeholder:text-[#748092] focus:border transition-colors
 
-</style>
+</style> 

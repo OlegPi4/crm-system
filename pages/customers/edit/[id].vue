@@ -6,6 +6,7 @@ import { COLLECTION_CUSTOMERS, DB_ID, STORAGE_ID } from '~/lib/app.constants';
 import { v4 as uuid } from 'uuid';
 import type { ICustomer } from '~/types/deals.types';
 
+
 interface ICustomerFormState
    extends Pick<ICustomer, 'avatar_url' | 'email' | 'name' | 'from_source'> {}
 
@@ -17,10 +18,15 @@ useSeoMeta({
    title: 'Редагування компанії'
 })
 
+const props = defineProps({
+   refetch: {
+      type: Function,
+   }
+})
 const route = useRoute()
 const customerId = route.params.id as string
 
-const { handleSubmit, defineField, setFieldValue, setValues, values } =
+const { handleSubmit, defineField, setFieldValue, setValues, values, handleReset } =
    useForm<ICustomerFormState>()
 
 const { data, isSuccess } = useQuery({
@@ -46,7 +52,11 @@ const [fromsource, fromsourceAttrs] = defineField('from_source')
 
 const { mutate, isPending } = useMutation({
    mutationKey: ['update customer', customerId],
-   mutationFn: (data: ICustomerFormState) => DB.updateDocument(DB_ID, COLLECTION_CUSTOMERS, customerId, data)
+   mutationFn: (data: ICustomerFormState) => DB.updateDocument(DB_ID, COLLECTION_CUSTOMERS, customerId, data),
+   onSuccess(){
+      props.refetch && props.refetch()
+      handleReset()
+   }
 })
 
 const onSubmit = handleSubmit(values => {

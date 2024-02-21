@@ -2,17 +2,38 @@
 import { DB } from '~/lib/appwrite';
 import { Table, TableBody, TableCaption, TableCell, TableHead,
   TableHeader, TableRow, } from '@/components/ui/table'
-import { useQuery } from '@tanstack/vue-query';
+import { useQuery, useMutation } from '@tanstack/vue-query';
 import {  DB_ID, COLLECTION_OURBANKRECV } from '~/lib/app.constants';
 import type { IOurBankRecvizits } from '~/types/company.types';
 
-const {data, isLoading} = useQuery({
+
+const {data, isLoading, refetch} = useQuery({
    queryKey: ['ourrecvizits'],
    queryFn: () => DB.listDocuments(DB_ID, COLLECTION_OURBANKRECV),
 })
 
+const rekvizits = ref(data?.value?.documents as unknown as IOurBankRecvizits[])
+const docId = ref('')
+const showAddForm = ref(false)
 
-const rekvizits = (data?.value?.documents as unknown as IOurBankRecvizits[])
+function delitem(val: string) {
+   if(confirm('Підтвердіть видалення ?')) {
+      docId.value = val
+      const promise = DB.deleteDocument(DB_ID, COLLECTION_OURBANKRECV, docId.value)
+      promise.then(function () {
+         docId.value = ''
+         alert('Запис видалено')
+         refetch()
+      }, function (error:string) {
+         alert(error)
+      })
+   }
+}
+
+function setShowAddForm() {
+   showAddForm.value = !showAddForm.value
+}
+
 
 </script>
 <template>
@@ -51,7 +72,7 @@ const rekvizits = (data?.value?.documents as unknown as IOurBankRecvizits[])
                   > edit
                   </NuxtLink>
                   <NuxtLink 
-                     @click.stop=''
+                     @click.stop='delitem(item.$id)'
                      style="background-color: #aaa;"
                      class="my-btn"
                   > del
@@ -61,12 +82,17 @@ const rekvizits = (data?.value?.documents as unknown as IOurBankRecvizits[])
          </TableBody>
       </Table> 
       <div class="block-btn" >
-         <Button class="btn-add"
-            @click="addfunc"
+         <Button class="btn-add" v-if="!showAddForm"
+            @click.stop="setShowAddForm"
             style="background-color: #aaa;"
          >add</Button>
       </div>
    </div>
+   <section class="add-form">
+      <LayoutAddRekvizit 
+      v-if="showAddForm"
+      @exit-add="setShowAddForm" />
+   </section>
 </template>
 
 <style lang="sass" scoped>
